@@ -2,11 +2,10 @@ const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection.js');
 
-class Comment extends Model { }
+class Blog extends Model { }
 
-Comment.init(
+Blog.init(
     {
-        // columns defined
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -14,33 +13,30 @@ Comment.init(
             autoIncrement: true
         },
 
-        comment: {
+        title: {
             type: DataTypes.STRING,
             allowNull: false
         },
-
-        blog_id: {
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'blog',
+                model: 'user',
                 key: 'id',
-            },
-            user_id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'user',
-                    key: 'id',
-                }
-            },
-        },
+            }
+        }
     }, {
     sequelize,
     timestamps: false,
-    freezeTableName: true, //uses singular table name instead of changing it to "Categorys"
+    freezeTableName: true, //uses singular table name instead of changing it to "Blogs"
     underscored: true, //sets field option on all attributes to snacke_case version of its name
-    modelName: 'comment'
-});
+    modelName: 'blog'
 
-module.exports = Comment;
+}
+);
+
+module.exports = Blog;

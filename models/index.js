@@ -1,35 +1,42 @@
-const User = require('/User');
-const Post = require('/Post');
-const Comment = require('./Comment');
+// model associations
 
+const Blog = require('./blog');
+const Comment = require('./comment');
+const User = require('./user');
 
-User.hasMany(Post, {
+Blog.belongsTo(User, {
     foreignKey: 'user_id'
+    // user_id from Blog
+});
+
+Comment.belongsTo(Blog, {
+    foreignKey: 'blog_id',
+    as:'Blog_id'
+    // blog_id from Comment
+});
+
+Comment.belongsTo(User, {
+    foreignKey: 'user_id',
+    // user_id from Comment
 })
+
+User.hasMany(Blog, {
+    foreignKey: 'user_id'
+    // user_id from Blog
+});
 
 User.hasMany(Comment, {
     foreignKey: 'user_id'
-})
+    // user_id from Comment
+});
 
-Post.belongsTo(User, {
-    foreignKey: 'user_id'
+Blog.hasMany(Comment, {
+    foreignKey: 'blog_id'
+    // blog_id from Comment
 })
-
-Post.hasMany(Comment, {
-    foreignKey: 'post_id'
-})
-
-Comment.belongsTo(User, {
-    foreignKey: 'user_id'
-})
-
-Comment.belongsTo(Post, {
-    foreignKey: 'post_id'
-})
-
 
 module.exports = {
-    User,
-    Post,
-    Comment
+    Blog,
+    Comment,
+    User
 };
